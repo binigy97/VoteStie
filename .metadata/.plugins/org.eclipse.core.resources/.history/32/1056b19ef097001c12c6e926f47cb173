@@ -1,0 +1,28 @@
+package com.prac.spring;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class VoteWebApplicationTests {
+
+	@Test
+	void contextLoads() {
+		String url = "www.naver.com";
+		File file = new File("./src/main/resources");
+		FileWriter fw = null;
+		
+		try {
+			fw = new FileWriter(file + "\\data.txt", true);
+			fw.write(url);
+			fw.close();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+
+}

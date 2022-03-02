@@ -1,0 +1,24 @@
+package com.prac.spring;
+
+import java.io.File;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class VoteWebApplicationTests {
+
+	@Test
+	void contextLoads() {
+		File file = new File("/webapp/resources");
+		System.out.println(file.exists());
+		System.out.println(file.mkdir());
+		
+		if (!file.mkdir()) {
+			file.mkdir();
+			System.out.println("/webapp/resources dir 생성");
+		}
+		System.out.println(file.exists());
+	}
+
+}

@@ -1,0 +1,30 @@
+package com.prac.spring;
+
+import java.io.File;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class VoteWebApplicationTests {
+
+	@Test
+	void contextLoads() {
+		File file = new File("./resources");
+		System.out.println(file.exists());
+		
+		if (!file.exists()) {
+			file.mkdir();
+			System.out.println("/resources dir 생성");
+			System.out.println(file.exists());
+		}
+	}
+	
+	@Test
+	void test2() {
+		File file = new File("./resources");
+		file.delete();
+		System.out.println(file.exists());
+	}
+
+}

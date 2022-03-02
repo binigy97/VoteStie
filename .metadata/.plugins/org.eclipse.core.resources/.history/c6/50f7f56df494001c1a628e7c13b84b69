@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>투표 사이트</title>
+</head>
+<style>
+body {
+	width: 70%;
+	margin: 0 auto;
+}
+article {
+	border: 1px solid black;
+}
+article:last-child {
+	position: absolute;
+	top: 30%;
+}
+div > label {
+	display: block;
+	color: black;
+}
+div > label:last-child {
+	margin-bottom: 20px;
+}
+</style>
+<body>
+<!-- 투표 내용 생성 -->
+<article>
+	<h2>제목을 입력해주세요</h2>
+	<div>
+		<label><input type="checkbox" name="op1" value="옵션 1">옵션 1</label>
+		<label><input type="checkbox" name="add_btn" value="옵션 추가">옵션 추가</label>
+	</div>
+	<div>
+		<button>삭제</button>
+	</div>
+</article>
+<!-- 투표지 추가 -->
+<article>
+
+</article>
+</body>
+</html>

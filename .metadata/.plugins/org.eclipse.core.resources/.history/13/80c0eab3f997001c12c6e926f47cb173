@@ -1,0 +1,33 @@
+package com.prac.spring;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class VoteWebApplicationTests {
+
+	@Test
+	void contextLoads() {
+		File path = new File("./src/main/resources");
+		BufferedReader buf = null;
+		
+		try {
+			buf = new BufferedReader(new FileReader(path + "\\data.txt"));
+			String line = null;
+			
+			while((line = buf.readLine()) != null) {
+				System.out.println(line);
+				
+			}
+		} catch(IOException e) {
+			System.out.println("[없는 파일] data.txt 라는 파일이 존재하지 않음");
+		}
+		
+	}
+
+}

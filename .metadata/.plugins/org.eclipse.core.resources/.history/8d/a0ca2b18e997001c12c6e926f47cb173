@@ -1,0 +1,16 @@
+package com.prac.spring;
+
+import java.io.File;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class VoteWebApplicationTests {
+
+	@Test
+	void contextLoads() {
+		File file = new File("/webapp/resources/data.txt");
+	}
+
+}
