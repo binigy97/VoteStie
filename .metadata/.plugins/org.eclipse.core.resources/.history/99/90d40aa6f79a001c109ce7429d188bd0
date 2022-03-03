@@ -1,0 +1,17 @@
+package com.prac.spring;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+class VoteWebTest {
+
+	@Test
+	void test() {
+		System.out.println(Character.isDigit(55));
+		System.out.println(Character.isDigit("55"));
+		System.out.println(Character.isDigit(55.5));
+		System.out.println(Character.isDigit("55a"));
+	}
+
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>투표 사이트</title>
+</head>
+<style>
+header {
+	height: 30px;
+	border: 1px solid black;
+}
+header > a {
+	float: right;
+}
+
+section {
+	width: 70%;
+	margin: 0 auto;
+}
+article {
+	border: 1px solid black;
+}
+section > article {
+	width: 100%;
+}
+body > article {
+	position: absolute;
+	top: 20%;
+	right: 5%;
+}
+div > label {
+	display: block;
+	color: black;
+}
+div > label:last-child {
+	margin-bottom: 20px;
+}
+</style>
+<body>
+<!-- 헤더 -->
+<header>
+	<nav><a href='/'>GO TO HOME</nav>
+	<a href="/dist"><button>보내기</button></a>
+</header>
+
+<!-- 투표 내용 생성 -->
+<section>
+	<article>
+		<form action="add_op_btn">
+			<input type="text" name="title" placeholder="제목을 입력해주세요">
+			<div>
+				<label><input type="text" name="op0" placeholder="옵션1"></label>
+				<input type="submit" value="옵션추가">
+			</div>
+			<div>
+				<input type="button" value="삭제">
+			</div>
+		</form>
+	</article>
+</section>
+
+<!-- 투표지 추가 -->
+<article>
+	<button>추가</button>
+</article>
+</body>
+</html>

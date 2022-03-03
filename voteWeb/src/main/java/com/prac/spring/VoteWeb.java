@@ -23,9 +23,6 @@ public class VoteWeb {
 	
 	@RequestMapping("/dist")
 	public void VoteDist(HttpServletResponse response) throws IOException {
-		// encoding
-		response.setCharacterEncoding("UTF-8");
-		
 		// url
 		String url = "http://localhost:8080/vote/";
 		String code = "";
@@ -79,6 +76,7 @@ public class VoteWeb {
 				+ "</body>\r\n"
 				+ "</html>";
 		
+		response.setContentType("text/html;charset=utf-8");
 		response.getWriter().print(html);
 		
 		// save to file
@@ -133,6 +131,143 @@ public class VoteWeb {
 		}
 		
 		return "/vote.html";
+	}
+	
+	@RequestMapping({"/add_op", "/add_op/*"})
+	public void AddOp(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		String url = request.getRequestURL().toString();
+		char delNum = url.charAt(url.length() - 1);
+		int delOpNum = -1;
+		if(Character.isDigit(delNum)) {
+			delOpNum = Character.getNumericValue(delNum); // 맨 뒤의 문자 하나만 가져오므로 2자리 숫자 이상은 코드 변경해야 됨
+		}
+		
+		VoteDTO data = new VoteDTO();
+		String[] op = new String[10];
+		String html;
+		
+		data.setTitle(request.getParameter("title"));
+		int n = 0;
+		while(true) {
+			if(n == delOpNum) {
+				n++;
+				continue;
+			}
+			String temp = request.getParameter("op" + n);
+			if(temp == null) break;
+			op[n] = temp;
+			n++;
+		}
+		data.setOp(op);
+		
+		response.setContentType("text/html;charset=utf-8");
+		html = "<!DOCTYPE html>\r\n"
+				+ "<html lang=\"ko\">\r\n"
+				+ "<head>\r\n"
+				+ "<meta charset=\"UTF-8\">\r\n"
+				+ "<title>투표 사이트</title>\r\n"
+				+ "</head>\r\n"
+				+ "<style>\r\n"
+				+ "header {\r\n"
+				+ "	height: 30px;\r\n"
+				+ "	border: 1px solid black;\r\n"
+				+ "}\r\n"
+				+ "header > a {\r\n"
+				+ "	float: right;\r\n"
+				+ "}\r\n"
+				+ "header > nav {\r\n"
+				+ "	text-align: center;\r\n"
+				+ "}"
+				+ "\r\n"
+				+ "section {\r\n"
+				+ "	width: 70%;\r\n"
+				+ "	margin: 0 auto;\r\n"
+				+ "}\r\n"
+				+ "article {\r\n"
+				+ "	border: 1px solid black;\r\n"
+				+ "}\r\n"
+				+ "section > article {\r\n"
+				+ "	width: 100%;\r\n"
+				+ "}\r\n"
+				+ "body > article {\r\n"
+				+ "	position: absolute;\r\n"
+				+ "	top: 20%;\r\n"
+				+ "	right: 5%;\r\n"
+				+ "}\r\n"
+				+ "div > label {\r\n"
+				+ "	display: block;\r\n"
+				+ "	color: black;\r\n"
+				+ "}\r\n"
+				+ "div > label:last-child {\r\n"
+				+ "	margin-bottom: 20px;\r\n"
+				+ "}\r\n"
+				+ "</style>\r\n"
+				+ "<body>\r\n"
+				+ "<!-- 헤더 -->\r\n"
+				+ "<header>\r\n"
+				+ " <nav><a href='/'>GO TO HOME</a></nav>\r\n"
+				+ "	<a href=\"/dist\"><button>보내기</button></a>\r\n"
+				+ "</header>\r\n"
+				+ "\r\n"
+				+ "<!-- 투표 내용 생성 -->\r\n"
+				+ "<section>\r\n"
+				+ "	<article>\r\n"
+				+ "		<form action=\"add_op\">\r\n"
+				+ "			<input type=\"hidden\" name=\"voteNum\" value=\"0\" >\r\n"
+				+ "			<input type=\"text\" name=\"title\" value='"+ data.getTitle() +"' placeholder='제목을 입력해주세요'>\r\n"
+				+ "			<div>\r\n";
+		int c = 0;
+		while(c < n) {
+			if(c == delOpNum) {
+				n++;
+				continue;
+			}
+			html = html
+//					+ "			<label><input type=\"text\" name='op" + c + "' value='" + data.getOp()[c] + "' placeholder='옵션" + (c + 1) + "'><a href='del_op/" + c + "'>X</a></label>\r\n";;
+					+ "			<label><input type=\"text\" name='op" + c + "' value='" + data.getOp()[c] + "' placeholder='옵션" + (c + 1) + "'></label>\r\n";
+			c++;
+		}
+		html = html
+//				+ "			<label><input type=\"text\" name='op" + c + "' placeholder='옵션" + (c + 1) + "'><a href='del_op'>X</a></label>\r\n";
+				+ "			<label><input type=\"text\" name='op" + c + "' placeholder='옵션" + (c + 1) + "'></label>\r\n";
+		if(n <= 8) {
+			html = html
+					+ "			<input type=\"submit\" value=\"옵션추가\">\r\n";
+		}
+		html = html
+				+ "			</div>\r\n"
+				+ "		</form>\r\n"
+				+ "		<form action=\"del_vote\">\r\n"
+				+ "			<input type=\"hidden\" name=\"delVoteNum\" value=\"0\" >\r\n"
+				+ "			<input type=\"submit\" value=\"투표지 삭제\">\r\n"
+				+ "		</form>"
+				+ "	</article>\r\n"
+				+ "</section>\r\n"
+				+ "\r\n"
+				+ "<!-- 투표지 추가 -->\r\n"
+				+ "<article>\r\n"
+				+ "		<form action=\"add_vote\">\r\n"
+				+ "			<input type=\"hidden\" name=\"addVoteNum\" value=\"1\" >\r\n"
+				+ "			<button>투표지 추가</button>\r\n"
+				+ "		</form>"
+				+ "</article>\r\n"
+				+ "</body>\r\n"
+				+ "</html>";
+		response.getWriter().print(html);
+	}
+	
+//	@RequestMapping("/del_op/*")
+//	public String DelOp(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//		String url = request.getRequestURL().toString();
+//		int delOpNum = Character.getNumericValue(url.charAt(url.length() - 1)); // 맨 뒤의 문자 하나만 가져오므로 2자리 숫자 이상은 코드 변경해야 됨
+//		
+//		return "redirect:/add_op/" + delOpNum;
+		// url에 쿼리 스트링을 붙여서 보내는 게 아니면 화면이 초기화되버림..
+//	}
+	
+	@RequestMapping("/del_vote")
+	public void DelVote(HttpServletRequest request) {
+		System.out.println(request.getParameter("title"));
 	}
 	
 }
